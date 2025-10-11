@@ -10,11 +10,11 @@ int parse_args(int ac, char **av, t_args *args)
     if (ac == 6)
     {
         args->needed_meals = ft_atoi(av[5]);
-        if (args->need_meals <= 0)
-            return (errormessage, 1);
+        if (args->needed_meals <= 0)
+            return (write(1, "Invalid int value\n", 19), 1);
     }
     if (args->num_of_phil <= 0 || args->count_die <= 0
         || args->count_eat <= 0 || args->count_sleep <= 0)
-        return (errormessage, 1);
+        return (write(1, "Invalid int value\n", 19), 1);;
     return (0);
 }

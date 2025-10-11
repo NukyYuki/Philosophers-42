@@ -13,7 +13,7 @@ int	ft_atoi(char *str)
 		i++;
 	if (str[i] == '+' || str[i] == '-')
 	{
-		if (str[i] = '-')
+		if (str[i] == '-')
 			sign *= -1;
 		i++;
 	}
@@ -23,4 +23,29 @@ int	ft_atoi(char *str)
 		i++;
 	}
 	return (res * sign);
+}
+
+
+long	get_time(void)
+{
+	struct timeval	time_v;
+	gettimeofday(&time_v, NULL);
+	return (time_v.tv_sec * 1000L + time_v.tv_usec / 1000L);
+}
+
+void precise_sleep(long duration)
+{
+	long start;
+	start = get_time();
+	while (get_time() - start < duration)
+		usleep(100); // Sleep for 100 microseconds
+}
+
+void safe_print(t_philo *philo, long start_time, const char *msg)
+{
+    long timestamp;
+	timestamp = get_time() - start_time;
+    pthread_mutex_lock(philo->printing);
+    printf("%ld %d %s\n", timestamp, philo->id + 1, msg);
+    pthread_mutex_unlock(philo->printing);
 }

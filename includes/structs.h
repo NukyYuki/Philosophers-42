@@ -17,17 +17,14 @@ typedef struct  s_philo
 {
     int     		id;
     int     		meals_eaten;
+    long            last_meal;
 	pthread_t		thread;
     pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
 	int				*dead;
 	pthread_mutex_t	*dead_mutex;
+    pthread_mutex_t *printing;
     t_args  		*args;
 }           t_philo;
-
-int	setup_forks(pthread_mutex_t **forks, int num_of_phil);
-int setup_philo(t_args args, t_philo **philo, pthread_mutex_t *forks);
-int parse_args(int ac, char **av, t_args *args);
-void    clean_struct(t_args args, t_philo philo, pthread_mutex_t *forks);
 
 #endif
