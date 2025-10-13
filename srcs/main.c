@@ -31,7 +31,7 @@ int	main(int ac, char **av)
 	if (parse_args(ac, av, &args) != 0)
 		return (1);
 	setup_forks(&forks, args.num_of_phil);
-	setup_philo(args, &philos, forks);
+	setup_philo(&args, &philos, forks);
 //	if (init_sim());
 //	int i = 0;
 /* 	while (i < args.num_of_phil)

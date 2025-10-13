@@ -44,6 +44,8 @@ void precise_sleep(long duration)
 void safe_print(t_philo *philo, long start_time, const char *msg)
 {
     long timestamp;
+	printf("%ld\n", start_time);
+	printf("%ld\n", get_time());
 	timestamp = get_time() - start_time;
     pthread_mutex_lock(philo->printing);
     printf("%ld %d %s\n", timestamp, philo->id + 1, msg);
