@@ -35,19 +35,24 @@ long	get_time(void)
 
 void precise_sleep(long duration)
 {
-	long start;
-	start = get_time();
-	while (get_time() - start < duration)
-		usleep(100); // Sleep for 100 microseconds
+	//long start;
+	//start = get_time();
+	//while (get_time() - start < duration)
+	usleep(duration * 1000); // Sleep for 100 microseconds
 }
 
 void safe_print(t_philo *philo, long start_time, const char *msg)
 {
     long timestamp;
-	printf("%ld\n", start_time);
-	printf("%ld\n", get_time());
+/* 	printf("%ld\n", start_time);
+	printf("%ld\n", get_time()); */
 	timestamp = get_time() - start_time;
-    pthread_mutex_lock(philo->printing);
-    printf("%ld %d %s\n", timestamp, philo->id + 1, msg);
-    pthread_mutex_unlock(philo->printing);
+	/* If someone has already died, only allow the dying message to be printed once. */
+	pthread_mutex_lock(philo->printing);
+	pthread_mutex_lock(philo->dead_mutex);
+	int dead = *(philo->dead);
+	pthread_mutex_unlock(philo->dead_mutex);
+	if (!dead || strcmp(msg, "died") == 0)
+		printf("%ld %d %s\n", timestamp, philo->id + 1, msg);
+	pthread_mutex_unlock(philo->printing);
 }

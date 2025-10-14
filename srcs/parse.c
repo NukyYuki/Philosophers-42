@@ -7,6 +7,7 @@ int parse_args(int ac, char **av, t_args *args)
     args->count_eat = ft_atoi(av[3]);
     args->count_sleep = ft_atoi(av[4]);
     args->needed_meals = -1;
+    args->num_full_philo = 0;
     if (ac == 6)
     {
         args->needed_meals = ft_atoi(av[5]);

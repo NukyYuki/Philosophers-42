@@ -49,6 +49,10 @@ debug: CFLAGS += $(DEBUG_FLAGS)
 debug: re
 	@echo "$(YELLOW)Debug version compiled with thread sanitizer$(NC)"
 
+tester: re
+	@git clone https://github.com/dantonik/42-philosophers-tester.git
+	@cd 42-philosophers-tester && ./test.sh
+
 # Clean object files
 clean:
 	rm -f $(OBJS)

@@ -38,6 +38,7 @@ int setup_philo(t_args *args, t_philo **philo, pthread_mutex_t *forks)
 		(*philo)[i].left_fork = &forks[i];
 		(*philo)[i].right_fork = &forks[(i + 1) % args->num_of_phil];
 		(*philo)[i].dead = dead_f;
+		(*philo)[i].is_full = false;
 		(*philo)[i].dead_mutex = dead_mu;
 		(*philo)[i].args = args;
 		i++;
