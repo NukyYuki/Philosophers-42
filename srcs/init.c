@@ -26,6 +26,9 @@ int setup_philo(t_args *args, t_philo **philo, pthread_mutex_t *forks)
 	dead_f = malloc(sizeof(int));
 	dead_mu = malloc(sizeof(pthread_mutex_t));
 	pthread_mutex_init(dead_mu, NULL);
+	if (!dead_f)
+		return (1);
+	*dead_f = 0;
 	*philo = malloc(sizeof(t_philo) * args->num_of_phil);
 	if (!*philo)
 		return (1);

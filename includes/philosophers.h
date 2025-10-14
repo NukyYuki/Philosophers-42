@@ -22,8 +22,12 @@ int     thread_create(t_philo *philo, int num_of_phil);
 void    monitor(t_philo *philo, int num_phil);
 void    join_thread(t_philo *philo, int num_of_phil);
 void    *philo_routine(void *arg);
-int    pickup(t_philo  *philo);
+int		pickup(t_philo  *philo);
 int     is_dead(t_philo *philo);
+void	unlock_forks(t_philo *philo);
+void    update_last_meal(t_philo *philo);
+void update_full_phillo(t_philo *philo);
+
 
 // UTILS
 long    get_time(void);

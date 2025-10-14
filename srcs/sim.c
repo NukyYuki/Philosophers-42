@@ -35,8 +35,12 @@ void monitor(t_philo *philo, int num_phil)
         {
             pthread_mutex_lock(philo[i].dead_mutex);
             long time_since_meal = get_time() - philo[i].last_meal;
-            if (philo->args->num_full_philo == philo->args->num_of_phil)
-                return ;
+            // Stop when all philosophers are full
+            if (philo->args->needed_meals > 0 && philo->args->num_full_philo == philo->args->num_of_phil)
+            {
+                pthread_mutex_unlock(philo[i].dead_mutex);
+                return;
+            }
             if (time_since_meal > philo[i].args->count_die)
             {
                 // printf("DEBUG: Philo %d died - time since last meal: %ld ms (limit: %d ms)\n",
@@ -76,47 +80,71 @@ int is_dead(t_philo *philo)
     return dead;
 }
 
+int return_verification(t_philo *philo, int n)
+{
+    if (n == 0)
+    {
+        if (is_dead(philo))
+        {
+            unlock_forks(philo);
+            return (0);
+        }
+    }
+    else
+    {
+        if (is_dead(philo))
+            return (0);
+    }
+    return (1);
+}
+
+void update_full_phillo(t_philo *philo)
+{
+    pthread_mutex_lock(philo->dead_mutex);
+    if (!philo->is_full)
+    {
+        philo->is_full = true;
+        philo->args->num_full_philo++;
+    }
+    pthread_mutex_unlock(philo->dead_mutex);
+}
+
 void *philo_routine(void *arg)
 {
     t_philo *philo = (t_philo *)arg;
+    int dead;
+    int all_full;
 
     if (philo->id % 2 != 0)
         usleep(100);
-    while (!*(philo->dead) || !(philo->args->num_full_philo == philo->args->num_of_phil))
+    while (1)
     {
-        if (*(philo->dead))
+        pthread_mutex_lock(philo->dead_mutex);
+        dead = *(philo->dead);
+        all_full = (philo->args->needed_meals > 0 && philo->args->num_full_philo == philo->args->num_of_phil);
+        pthread_mutex_unlock(philo->dead_mutex);
+        if (dead || all_full)
             break;
         if (!pickup(philo))
             break ;
-        if (*(philo->dead))
-        {
-            pthread_mutex_unlock(philo->left_fork);
-            pthread_mutex_unlock(philo->right_fork);
+        if (return_verification(philo, 1) == 0)
             break;
-        }
-        pthread_mutex_lock(philo->dead_mutex);
-        philo->last_meal = get_time();
-        pthread_mutex_unlock(philo->dead_mutex);
+        update_last_meal(philo);
         safe_print(philo, philo->args->start_time, "is eating");
         precise_sleep(philo->args->count_eat);
         philo->meals_eaten++;
-        pthread_mutex_unlock(philo->left_fork);
-        pthread_mutex_unlock(philo->right_fork);
-        if (philo->meals_eaten == philo->args->needed_meals && !philo->is_full)
-        {
-            philo->is_full = true;
-            philo->args->num_full_philo++;
-            // break ;
-        }
-        if (*(philo->dead))
+        unlock_forks(philo);
+        if (philo->args->needed_meals > 0 && philo->meals_eaten == philo->args->needed_meals && !philo->is_full)
+            update_full_phillo(philo);
+        if (return_verification(philo, 1) == 0)
             break;
         safe_print(philo, philo->args->start_time, "is sleeping");
         precise_sleep(philo->args->count_sleep);
-        if (*(philo->dead))
+        if (return_verification(philo, 1) == 0)
             break;
         safe_print(philo, philo->args->start_time, "is thinking");
         precise_sleep((philo->args->count_die - philo->args->count_sleep - philo->args->count_eat) / 4);
-        if (*(philo->dead))
+        if (return_verification(philo, 1) == 0)
             break;
     }
     return (NULL);
@@ -141,8 +169,7 @@ int pickup(t_philo *philo)
         pthread_mutex_lock(philo->right_fork);
         if (is_dead(philo))
         {
-            pthread_mutex_unlock(philo->right_fork);
-            pthread_mutex_unlock(philo->left_fork);
+            unlock_forks(philo);
             return (0);
         }
         safe_print(philo, philo->args->start_time, "has taken a fork");
@@ -159,14 +186,11 @@ int pickup(t_philo *philo)
         pthread_mutex_lock(philo->left_fork);
         if (is_dead(philo))
         {
-            pthread_mutex_unlock(philo->left_fork);
-            pthread_mutex_unlock(philo->right_fork);
+            unlock_forks(philo);
             return (0);
         }
         safe_print(philo, philo->args->start_time, "has taken a fork");
     }
-    pthread_mutex_lock(philo->dead_mutex);
-    philo->last_meal = get_time();
-    pthread_mutex_unlock(philo->dead_mutex);
+    update_last_meal(philo);
     return (1);
 }

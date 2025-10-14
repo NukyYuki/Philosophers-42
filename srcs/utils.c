@@ -44,10 +44,7 @@ void precise_sleep(long duration)
 void safe_print(t_philo *philo, long start_time, const char *msg)
 {
     long timestamp;
-/* 	printf("%ld\n", start_time);
-	printf("%ld\n", get_time()); */
 	timestamp = get_time() - start_time;
-	/* If someone has already died, only allow the dying message to be printed once. */
 	pthread_mutex_lock(philo->printing);
 	pthread_mutex_lock(philo->dead_mutex);
 	int dead = *(philo->dead);
@@ -55,4 +52,17 @@ void safe_print(t_philo *philo, long start_time, const char *msg)
 	if (!dead || strcmp(msg, "died") == 0)
 		printf("%ld %d %s\n", timestamp, philo->id + 1, msg);
 	pthread_mutex_unlock(philo->printing);
+}
+
+void unlock_forks(t_philo *philo)
+{
+    pthread_mutex_unlock(philo->left_fork);
+    pthread_mutex_unlock(philo->right_fork);
+}
+
+void    update_last_meal(t_philo *philo)
+{
+    pthread_mutex_lock(philo->dead_mutex);
+    philo->last_meal = get_time();
+    pthread_mutex_unlock(philo->dead_mutex);
 }
