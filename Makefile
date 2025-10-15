@@ -11,12 +11,14 @@ SRCDIR		= srcs/
 INCDIR		= includes/
 
 # Source files
-SRC_FILES	= main.c \
-			  parse.c \
-			  init.c \
-			  utils.c \
-			  sim.c \
-			  cleanup.c
+SRC_FILES	=	main.c \
+				parse.c \
+				init.c \
+				utils.c \
+				utils2.c \
+				sim_util.c \
+				sim.c \
+				cleanup.c
 
 # Object files (in src/)
 SRCS		= $(addprefix $(SRCDIR), $(SRC_FILES))
