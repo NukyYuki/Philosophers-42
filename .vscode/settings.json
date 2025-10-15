@@ -2,5 +2,7 @@
     "files.associations": {
         "philosophers.h": "c",
         "stdbool.h": "c"
-    }
+    },
+    "editor.guides.highlightActiveIndentation": "always",
+    "editor.renderLineHighlight": "all"
 }

@@ -27,6 +27,7 @@
 int		setup_forks(pthread_mutex_t **forks, int num_of_phil);
 int		setup_philo(t_args *args, t_philo **philo, pthread_mutex_t *forks);
 int		parse_args(int ac, char **av, t_args *args);
+int		check_values(int ac, char **av);
 int		init_var(int *i, int **dead_f, pthread_mutex_t **dead_mu);
 
 // SIMULATION
@@ -51,8 +52,11 @@ int		break2_routine(t_philo *ph, int dead, int all_full);
 long	get_time(void);
 void	precise_sleep(long duration);
 int		ft_atoi(char *str);
+int		is_valid_int32(char *str);
 void	set_start_time(t_args *args, t_philo **philo);
 void	safe_print(t_philo *philo, long start_time, const char *msg);
+void	skip_whitespace(char *str, int *i, int *sign);
+void	init_valid_int32(int *i, int *sign, long long *res, int *has_digit);
 
 // CLEANUP
 void	clean_struct(t_args args, t_philo *philo, pthread_mutex_t *forks);
