@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mipinhei <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mipinhei <mipinhei@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 16:58:11 by mipinhei          #+#    #+#             */
-/*   Updated: 2025/10/15 17:00:32 by mipinhei         ###   ########.fr       */
+/*   Updated: 2025/10/16 10:28:45 by mipinhei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ int	parse_args(int ac, char **av, t_args *args)
 	return (0);
 }
 
-int check_values(int ac, char **av)
+int	check_values(int ac, char **av)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 1;
 	while (i < ac)
@@ -62,10 +62,10 @@ int check_values(int ac, char **av)
 
 int	is_valid_int32(char *str)
 {
-	int         i;
-	int         sign;
-	long long   res;
-	int         has_digit;
+	int			i;
+	int			sign;
+	long long	res;
+	int			has_digit;
 
 	if (!str || !*str)
 		return (0);
@@ -98,7 +98,7 @@ void	init_valid_int32(int *i, int *sign, long long *res, int *has_digit)
 
 void	skip_whitespace(char *str, int *i, int *sign)
 {
-	int j;
+	int	j;
 
 	j = *i;
 	while ((str[j] >= 9 && str[j] <= 13) || str[j] == 32)
