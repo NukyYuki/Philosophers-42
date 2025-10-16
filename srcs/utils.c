@@ -6,7 +6,7 @@
 /*   By: mipinhei <mipinhei@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 13:16:23 by mipinhei          #+#    #+#             */
-/*   Updated: 2025/10/15 17:07:21 by mipinhei         ###   ########.fr       */
+/*   Updated: 2025/10/16 10:47:59 by mipinhei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	safe_print(t_philo *philo, long start_time, const char *msg)
 	pthread_mutex_lock(philo->dead_mutex);
 	dead = *(philo->dead);
 	pthread_mutex_unlock(philo->dead_mutex);
-	if (!dead || strcmp(msg, "died") == 0)
+	if (!dead || ft_strcmp(msg, "died") == 0)
 		printf("%ld %d %s\n", timestamp, philo->id + 1, msg);
 	pthread_mutex_unlock(philo->printing);
 }

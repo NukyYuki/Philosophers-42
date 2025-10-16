@@ -6,7 +6,7 @@
 /*   By: mipinhei <mipinhei@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 13:13:01 by mipinhei          #+#    #+#             */
-/*   Updated: 2025/10/15 17:04:02 by mipinhei         ###   ########.fr       */
+/*   Updated: 2025/10/16 10:55:04 by mipinhei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,14 @@ void	set_start_time(t_args *args, t_philo **philo)
 		(*philo)[i].printing = print;
 		i++;
 	}
+}
+
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i] && s2[i] && s1[i] == s2[i])
+		i++;
+	return (s1[i - s2[i]]);
 }

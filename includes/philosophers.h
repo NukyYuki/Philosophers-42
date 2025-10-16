@@ -6,7 +6,7 @@
 /*   By: mipinhei <mipinhei@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 12:32:03 by mipinhei          #+#    #+#             */
-/*   Updated: 2025/10/15 18:21:33 by mipinhei         ###   ########.fr       */
+/*   Updated: 2025/10/16 10:55:21 by mipinhei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <unistd.h>
 # include <pthread.h>
 # include <sys/time.h>
-# include <string.h>
+# include <string.h> 
 # include <limits.h>
 # include <stdbool.h>
 # include "structs.h"
@@ -57,6 +57,7 @@ void	set_start_time(t_args *args, t_philo **philo);
 void	safe_print(t_philo *philo, long start_time, const char *msg);
 void	skip_whitespace(char *str, int *i, int *sign);
 void	init_valid_int32(int *i, int *sign, long long *res, int *has_digit);
+int		ft_strcmp(const char *s1, const char *s2);
 
 // CLEANUP
 void	clean_struct(t_args args, t_philo *philo, pthread_mutex_t *forks);
